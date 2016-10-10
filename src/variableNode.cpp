@@ -56,15 +56,13 @@ void VariableNode::updateWithValue(const string& var_name, double var_val){
     evaluateAndUpdate();
 }
 
-void VariableNode::addToEquationMap(vector<string>& line_words) {
-    for (auto it : left_side_variables)
-    {
-        string var_name = it.first;
-        if (equations_map.count(var_name) == 0)
-            equations_map[var_name] = new vector<VariableNode* >();
-        equations_map[var_name]->push_back(this);
-    }
-    for (auto it : right_side_variables)
+void VariableNode::addToEquationMap() {
+    addToEquationMapHelper(left_side_variables);
+    addToEquationMapHelper(right_side_variables);
+}
+
+void VariableNode::addToEquationMapHelper(unordered_map<string, int>& map) {
+    for (auto it : map)
     {
         string var_name = it.first;
         if (equations_map.count(var_name) == 0)
