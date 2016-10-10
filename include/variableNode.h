@@ -12,7 +12,7 @@ class VariableNode {
     // takes a vector of strings, start index, stop index, pointer to value
     // accumulator, and pointer to a map, and iterates through the vector
     // initializing the value and the map
-    void setValAndVars(vector<string>&, int&, int&, double&, unordered_map<string, int>&);
+    void setValAndVars(vector<string>&, int&, int&, double&, double&, unordered_map<string, int>&, unordered_map<string, int>&);
 
     // initializes the left side of the equation. takes the vector
     // of variables, and the index of the '='
@@ -29,9 +29,22 @@ class VariableNode {
         // map points from variable name to count
         unordered_map<string, int> right_side_variables;
         unordered_map<string, int> left_side_variables;
-        VariableNode(vector<string>&);
+
+        static unordered_map<string, double> solution_map;
+        static unordered_map<string, vector<VariableNode* >* > equations_map;
+
+        VariableNode(vector<string>&, unordered_map<string, double>&);
+
+        // check if this function can be evaluated
+        bool canEvaluate();
+        // evaluate the function, return the variable, and the double representing
+        // the number it is equal to
+        pair<string, double> evaluate();
+        static void printEquationMap();
         void printMap(unordered_map<string, int>&);
-        void print();
+        void printEquation();
+
+
 };
 
 #endif

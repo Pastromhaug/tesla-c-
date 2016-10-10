@@ -3,17 +3,20 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 #include "parser.h"
 #include "variableNode.h"
 using namespace std;
+
+
+unordered_map<string, vector<VariableNode* >* > VariableNode::equations_map;
+unordered_map<string, double> VariableNode::solution_map;
 
 int main(int argc, char *argv[]) {
 
     char* filename = argv[1];
     cout << "Filename: " << filename << "\n\n";
     Parser::printFileContents(filename);
-
-    unordered_map<string, VariableNode*> equations_map;
 
     string line;
     ifstream myfile(filename);
@@ -28,15 +31,18 @@ int main(int argc, char *argv[]) {
             {
                 if (Parser::isDouble(word)) continue;
                 if (word == "+" || word == "=") continue;
-                else
-                    equations_map[word] = node;
+                if (VariableNode::equations_map.count(word) == 0)
+                    VariableNode::equations_map[word] = new vector<VariableNode* >();
+                auto begin = VariableNode::equations_map[word]->begin();
+                auto end = VariableNode::equations_map[word]->end();
+                if (count(begin, end, node) == 0)
+                    VariableNode::equations_map[word]->push_back(node);
             }
             delete line_words;
-            node->print();
+            node->printEquation();
         }
-        cout << "\n equations_map: \n";
-        for (auto it: equations_map)
-            cout << it.first << ": " << it.second << "\n";
+        VariableNode::printEquationMap();
+
     }
     else
     {
