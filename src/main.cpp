@@ -2,13 +2,18 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "parser.h"
+#include "variableNode.h"
 using namespace std;
 
 int main(int argc, char *argv[]) {
 
     char* filename = argv[1];
-    cout << "Filename: " << filename << endl;
+    cout << "Filename: " << filename << "\n\n";
+    Parser::printFileContents(filename);
+
+    unordered_map<string, VariableNode*> equations_map;
 
     string line;
     ifstream myfile(filename);
@@ -16,16 +21,22 @@ int main(int argc, char *argv[]) {
     {
         while (getline(myfile, line))
         {
-            cout << line << "\n";
-            string test = "hi my name is per andre ";
-            Parser::parseLine(test);
-            vector<string>* line_words= Parser::parseLine(line);
-            for (int i = 0; i < line_words->size(); i++)
+            // cout << line << "\n";
+            vector<string>* line_words = Parser::parseLine(line);
+            VariableNode* node = new VariableNode(*line_words);
+            for (string word: (*line_words))
             {
-                string word = (*line_words)[i];
-                cout << word << ",";
+                if (Parser::isDouble(word)) continue;
+                if (word == "+" || word == "=") continue;
+                else
+                    equations_map[word] = node;
             }
-            cout << "\n";
+            delete line_words;
+            node->print();
+            // cout << node1.name << "\n";
+            // cout << node1.value << "\n";
+            // node1.print();
+            // cout << "\n";
         }
     }
     else
