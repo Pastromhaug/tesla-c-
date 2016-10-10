@@ -27,7 +27,6 @@ int main(int argc, char *argv[]) {
             // cout << line << "\n";
             vector<string>* line_words = Parser::parseLine(line);
             VariableNode* node = new VariableNode(*line_words);
-            delete line_words;
             node->printEquation();
         }
         VariableNode::printEquationMap();
