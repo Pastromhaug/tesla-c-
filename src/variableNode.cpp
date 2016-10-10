@@ -7,7 +7,7 @@
 #include <algorithm>
 using namespace std;
 
-VariableNode::VariableNode(vector<string>& line_words, unordered_map<string,double>& solution_map) {
+VariableNode::VariableNode(vector<string>& line_words) {
     right_side_value = 0;
     left_side_value = 0;
     vector<string>::iterator equal_ptr = find(line_words.begin(), line_words.end(), "=");
@@ -16,6 +16,19 @@ VariableNode::VariableNode(vector<string>& line_words, unordered_map<string,doub
     initLeftSide(line_words, equal_idx);
     equal_idx++;
     initRightSide(line_words, equal_idx);
+
+    for (string word: line_words)
+    {
+        if (Parser::isDouble(word)) continue;
+        if (word == "+" || word == "=") continue;
+        if (equations_map.count(word) == 0)
+            equations_map[word] = new vector<VariableNode* >();
+
+        auto begin = equations_map[word]->begin();
+        auto end = equations_map[word]->end();
+        if (count(begin, end, this) == 0)
+            equations_map[word]->push_back(this);
+    }
 }
 
 void VariableNode::setValAndVars(vector<string>& line_words, int &start_idx,
@@ -107,7 +120,7 @@ void VariableNode::printMap(unordered_map<string, int>& map) {
         cout << it.second << "*" << it.first << " + ";
 }
 
-static void VariableNode::printEquationMap() {
+void VariableNode::printEquationMap() {
     cout << "\n equations_map: \n";
     for (auto it: VariableNode::equations_map)
     {
@@ -115,6 +128,14 @@ static void VariableNode::printEquationMap() {
         for (auto ptr: *(it.second))
             cout << " " << ptr;
         cout << "\n";
+    }
+}
+
+void VariableNode::printSolutionMap() {
+    cout << "\n solution_map: \n";
+    for (auto it: VariableNode::solution_map)
+    {
+        cout << it.first << ": " << it.second << "\n";
     }
 }
 

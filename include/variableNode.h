@@ -33,7 +33,7 @@ class VariableNode {
         static unordered_map<string, double> solution_map;
         static unordered_map<string, vector<VariableNode* >* > equations_map;
 
-        VariableNode(vector<string>&, unordered_map<string, double>&);
+        VariableNode(vector<string>&);
 
         // check if this function can be evaluated
         bool canEvaluate();
@@ -41,6 +41,7 @@ class VariableNode {
         // the number it is equal to
         pair<string, double> evaluate();
         static void printEquationMap();
+        static void printSolutionMap();
         void printMap(unordered_map<string, int>&);
         void printEquation();
 

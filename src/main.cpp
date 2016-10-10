@@ -27,22 +27,11 @@ int main(int argc, char *argv[]) {
             // cout << line << "\n";
             vector<string>* line_words = Parser::parseLine(line);
             VariableNode* node = new VariableNode(*line_words);
-            for (string word: (*line_words))
-            {
-                if (Parser::isDouble(word)) continue;
-                if (word == "+" || word == "=") continue;
-                if (VariableNode::equations_map.count(word) == 0)
-                    VariableNode::equations_map[word] = new vector<VariableNode* >();
-                auto begin = VariableNode::equations_map[word]->begin();
-                auto end = VariableNode::equations_map[word]->end();
-                if (count(begin, end, node) == 0)
-                    VariableNode::equations_map[word]->push_back(node);
-            }
             delete line_words;
             node->printEquation();
         }
         VariableNode::printEquationMap();
-
+        VariableNode::printSolutionMap();
     }
     else
     {
