@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
         }
         cout << "\n equations_map: \n";
         for (auto it: equations_map)
-            cout << it.first << ": " << it.second;
+            cout << it.first << ": " << it.second << "\n";
     }
     else
     {
