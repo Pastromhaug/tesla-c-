@@ -45,7 +45,7 @@ class VariableNode {
         void updateWithValue(const string&, double);
         void evaluateAndUpdate();
         void addToEquationMap();
-        void addtoEquationMapHelper(unordered_map<string, int>&);
+        void addToEquationMapHelper(unordered_map<string, int>&);
         void printMap(unordered_map<string, int>&);
         void printEquation();
 

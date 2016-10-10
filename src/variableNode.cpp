@@ -16,7 +16,7 @@ VariableNode::VariableNode(vector<string>& line_words) {
     initLeftSide(line_words, equal_idx);
     equal_idx++;
     initRightSide(line_words, equal_idx);
-    addToEquationMap(line_words);
+    addToEquationMap();
     evaluateAndUpdate();
 
 }
