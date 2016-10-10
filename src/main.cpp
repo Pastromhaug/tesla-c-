@@ -33,11 +33,10 @@ int main(int argc, char *argv[]) {
             }
             delete line_words;
             node->print();
-            // cout << node1.name << "\n";
-            // cout << node1.value << "\n";
-            // node1.print();
-            // cout << "\n";
         }
+        cout << "\n equations_map: \n";
+        for (auto it: equations_map)
+            cout << it.first << ": " << it.second;
     }
     else
     {
