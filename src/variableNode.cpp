@@ -57,17 +57,19 @@ void VariableNode::updateWithValue(const string& var_name, double var_val){
 }
 
 void VariableNode::addToEquationMap(vector<string>& line_words) {
-    for (string word: line_words)
+    for (auto it : left_side_variables)
     {
-        if (Parser::isDouble(word)) continue;
-        if (word == "+" || word == "=") continue;
-        if (equations_map.count(word) == 0)
-            equations_map[word] = new vector<VariableNode* >();
-
-        auto begin = equations_map[word]->begin();
-        auto end = equations_map[word]->end();
-        if (count(begin, end, this) == 0)
-            equations_map[word]->push_back(this);
+        string var_name = it.first;
+        if (equations_map.count(var_name) == 0)
+            equations_map[var_name] = new vector<VariableNode* >();
+        equations_map[var_name]->push_back(this);
+    }
+    for (auto it : right_side_variables)
+    {
+        string var_name = it.first;
+        if (equations_map.count(var_name) == 0)
+            equations_map[var_name] = new vector<VariableNode* >();
+        equations_map[var_name]->push_back(this);
     }
 }
 
