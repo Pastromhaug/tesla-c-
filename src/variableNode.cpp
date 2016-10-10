@@ -16,7 +16,47 @@ VariableNode::VariableNode(vector<string>& line_words) {
     initLeftSide(line_words, equal_idx);
     equal_idx++;
     initRightSide(line_words, equal_idx);
+    addToEquationMap(line_words);
+    evaluateAndUpdate();
 
+}
+
+void VariableNode::evaluateAndUpdate() {
+    if (canEvaluate())
+    {
+        pair<string,double> pair = evaluate();
+        string var_name = pair.first;
+        double var_val = pair.second;
+        solution_map[var_name] = var_val;
+
+        vector<VariableNode*> node_vector= *(equations_map[var_name]);
+        for (auto node : node_vector)
+            node->updateWithValue(var_name, var_val);
+    }
+}
+
+void VariableNode::updateWithValue(const string& var_name, double var_val){
+    // cout << 1 << endl;
+    if (left_side_variables.count(var_name) != 0)
+    {
+        // cout << 3 << endl;
+        int count = left_side_variables[var_name];
+        // cout << 4 << endl;
+        left_side_value += (count*var_val - right_side_value);
+        left_side_variables.erase(var_name);
+        // cout << 5 << endl;
+    }
+    // cout << 2 << endl;
+    if (right_side_variables.count(var_name) != 0)
+    {
+        int count = right_side_variables[var_name];
+        right_side_value += (count*var_val - left_side_value);
+        right_side_variables.erase(var_name);
+    }
+    evaluateAndUpdate();
+}
+
+void VariableNode::addToEquationMap(vector<string>& line_words) {
     for (string word: line_words)
     {
         if (Parser::isDouble(word)) continue;
@@ -133,9 +173,14 @@ void VariableNode::printEquationMap() {
 
 void VariableNode::printSolutionMap() {
     cout << "\n solution_map: \n";
+    vector<string> var_names;
     for (auto it: VariableNode::solution_map)
+        var_names.push_back(it.first);
+
+    sort(var_names.begin(), var_names.end());
+    for (string var_name : var_names)
     {
-        cout << it.first << ": " << it.second << "\n";
+        cout << var_name << ": " << solution_map[var_name] << "\n";
     }
 }
 

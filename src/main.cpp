@@ -24,9 +24,8 @@ int main(int argc, char *argv[]) {
     {
         while (getline(myfile, line))
         {
-            // cout << line << "\n";
-            vector<string>* line_words = Parser::parseLine(line);
-            VariableNode* node = new VariableNode(*line_words);
+            vector<string> line_words = Parser::parseLine(line);
+            VariableNode* node = new VariableNode(line_words);
             node->printEquation();
         }
         VariableNode::printEquationMap();

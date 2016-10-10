@@ -8,7 +8,7 @@ using namespace std;
 /**
  Takes a string and ouputs a vector of all the words in the string
 */
-vector<string>* Parser::parseLine(const string &line) {
+vector<string> Parser::parseLine(const string &line) {
     vector<string> line_words;
     int i = 0;
     string word;
@@ -22,7 +22,7 @@ vector<string>* Parser::parseLine(const string &line) {
         i = next_space + 1;
         line_words.push_back(word);
     }
-    return &line_words;
+    return line_words;
 }
 
 bool Parser::isDouble(const string &word) {
