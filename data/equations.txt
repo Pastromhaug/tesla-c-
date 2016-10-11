@@ -1,4 +1,5 @@
-offset = 4 + random + random + 1
-location = 1 + origin + offset
+offset = 4 + random + 1
+location + bear = 1 + origin + offset
 origin = 3 + 5
-random = 2
+random + 1 = 2
+bear = 5

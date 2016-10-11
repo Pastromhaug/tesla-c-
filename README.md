@@ -1,5 +1,5 @@
 ###Motivation
-I approached this problem from the perspective of wanting to demonstrate that I can use data structures appropriately to write efficient code. My implementaion uses a series of hashmaps to provide constant time lookups, and prevent me from having to scan through the system of equations more than once.
+I approached this problem from the perspective of wanting to demonstrate that I can use data structures appropriately to write efficient code. My implementation uses a series of hashmaps to provide constant time lookups, and prevent me from having to scan through the system of equations more than once. I also solved a slightly more general problem than the one specified in the instructions. In my solution values don't have to be unsigned, and the left side of the equation is not just limited to a variable name, but can be an expression of the same form as the right side.
 
 ### High Level Overview
 The implementation is based primarily around two hashmaps: equation_map and solution_map. 
@@ -28,9 +28,9 @@ Here is some psudocode explaining how the algorithm works:
 Each equation is represented as an instance of class EquationNode. equation_map and solution_map are both shared static members of class EquationNode.
 
 ### Runtime analysis
-If we say that there are *n* equations, that each have *m* variables max, then we know that a lower bound on the runtime is *O(nm)*, since we definitely have to iterate over every variable in every equation. My implementation has runtime *O(2nm)*, since as we iterate over each of the *nm* variables, we do *O(1)* replacements of variables with their calculated values, and there's max *nm* replacements to make. However, expected runtime would be much lower than this, since each equation probably has less than m variables (some must have only 1 variable).
+If we say that there are *n* equations, that each have *m* terms max, then we know that a lower bound on the runtime is *O(nm)*, since we definitely have to iterate over every term in every equation. My implementation has runtime *O(2nm)*, since as we iterate over each of the *nm* variables, we do *O(1)* replacements of variables with their calculated values, and there's max *nm* replacements to make. However, expected runtime would be much lower than this, since each equation probably has less than m variables (some must have only 1 variable).
  
-### How to Use
+### Build and Execution Instructions
 to compile the program, just run `make` from the root directory. The resulting executable is in `bin/main`. The program takes a file name as a parameter. Here is an example command from the root directory, along with the output of the program:
 ```
 /Projects/tesla-c-$  ./bin/main data/equations2.txt
