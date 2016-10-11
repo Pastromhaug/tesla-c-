@@ -9,24 +9,24 @@
 using namespace std;
 
 
-unordered_map<string, vector<EquationNode*>*> EquationNode::_equation_map;
-unordered_map<string, double> EquationNode::_solution_map;
-
 int main(int argc, char *argv[]) {
 
+    // grab the file name argument from command line
     char* filename = argv[1];
     cout << "File: " << filename << "\n\n";
+
+    // make sure the file exists
     if (!Parser::checkFileName(filename))
     {
         cout << "invalid file name\n";
         return 0;
     }
 
+    // print out the file contents
     Parser::printFileContents(filename);
-
+    // parse the file into a vector of vectors of strings, where each vector is a line
+    // and each string is a word separated by spaces.
     vector<vector<string>> parsed_file = Parser::parseFile(filename);
-    for (vector<string> line : parsed_file)
-        EquationNode* node = new EquationNode(line);
-    EquationNode::printSolutionMap();
-    EquationNode::releaseDynamicMemory();
+    // solve the system of equations and print out the solution
+    EquationNode::solveSystemOfEquations(parsed_file);
 }

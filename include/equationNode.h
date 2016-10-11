@@ -29,6 +29,9 @@ class EquationNode {
     // maps from each variable to all the equations that contain it
     static unordered_map<string, vector<EquationNode* >* > _equation_map;
 
+    // vector of pointers to all dynamically allocated instances of this class
+    // used to clean up dynamic memory and prevent leaks
+    static vector<EquationNode*> _dynamic_objects;
 
     //-------- functions ---------
 
@@ -67,6 +70,20 @@ class EquationNode {
     // helper for addToEquationsMap()
     void _addToEquationMapHelper(unordered_map<string, int>&);
 
+    // prints the contents of the static member equations_map
+    static void _printEquationMap();
+
+    // prints the contents of the static member solution_map
+    static void _printSolutionMap();
+
+    // print out the internal representation of the left side variables and values
+    // or right side variables and values
+    void _printMap(const unordered_map<string, int>&);
+
+    // prints out the whole internal representation of the equation stored in
+    // this node.
+    void _printEquation();
+
 
     public:
         // constructor. takes a vector of strings representing all the
@@ -74,23 +91,11 @@ class EquationNode {
         // e.x. "a = b + c + 5" should be input as ["a", "=", "b", "+", "c","+","5"]
         EquationNode(vector<string>&);
 
-        // prints the contents of the static member equations_map
-        static void printEquationMap();
+        // takes all the words in a file, solves the system of equations,
+        // prints the solution to the console
+        static void solveSystemOfEquations(vector<vector<string>>& system);
 
-        // prints the contents of the static member solution_map
-        static void printSolutionMap();
 
-        // print out the internal representation of the left side variables and values
-        // or right side variables and values
-        void printMap(const unordered_map<string, int>&);
-
-        // prints out the whole internal representation of the equation stored in
-        // this node.
-        void printEquation();
-
-        // deletes all the dynamically allocated vectors, and EquationNode objects from
-        // equation_map
-        static void releaseDynamicMemory();
 };
 
 #endif

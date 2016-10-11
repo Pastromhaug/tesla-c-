@@ -7,6 +7,10 @@
 #include <algorithm>
 using namespace std;
 
+unordered_map<string, vector<EquationNode*>*> EquationNode::_equation_map;
+unordered_map<string, double> EquationNode::_solution_map;
+vector<EquationNode*> EquationNode::_dynamic_objects;
+
 EquationNode::EquationNode(vector<string>& line_words) {
     _right_side_value = 0;
     _left_side_value = 0;
@@ -18,6 +22,21 @@ EquationNode::EquationNode(vector<string>& line_words) {
     _initRightSide(line_words, equal_idx);
     _addToEquationMap();
     _evaluateAndUpdate();
+}
+
+void EquationNode::solveSystemOfEquations(vector<vector<string>>& system) {
+    // store created objects in vector to allow them to be retrieved and deleted later
+    for (vector<string> line : system)
+        _dynamic_objects.push_back(new EquationNode(line));
+
+    // print out results
+    _printSolutionMap();
+
+    // delete all allocated dynamic memory
+    for (EquationNode* node : _dynamic_objects)
+        delete node;
+    for (auto it : _equation_map)
+        delete it.second;
 }
 
 void EquationNode::_evaluateAndUpdate() {
@@ -148,12 +167,12 @@ pair<string, double> EquationNode::_evaluate() {
     }
 }
 
-void EquationNode::printMap(const unordered_map<string, int>& map) {
+void EquationNode::_printMap(const unordered_map<string, int>& map) {
     for (auto it: map)
         cout << it.second << "*" << it.first << " + ";
 }
 
-void EquationNode::printEquationMap() {
+void EquationNode::_printEquationMap() {
     cout << "\t _equation_map \n";
     for (auto it: EquationNode::_equation_map)
     {
@@ -164,7 +183,7 @@ void EquationNode::printEquationMap() {
     }
 }
 
-void EquationNode::printSolutionMap() {
+void EquationNode::_printSolutionMap() {
     cout << "\t solution \n";
     vector<string> var_names;
     for (auto it: EquationNode::_solution_map)
@@ -177,22 +196,11 @@ void EquationNode::printSolutionMap() {
     }
 }
 
-void EquationNode::printEquation() {
-    printMap(_left_side_variables);
+void EquationNode::_printEquation() {
+    _printMap(_left_side_variables);
     cout  << _left_side_value;
     cout << " = ";
-    printMap(_right_side_variables);
+    _printMap(_right_side_variables);
     cout  << _right_side_value;
     cout << "\n";
-}
-
-void EquationNode::releaseDynamicMemory() {
-    for (auto it : _equation_map)
-    {
-//        cout << 1 << endl;
-        vector<EquationNode*>* vec = it.second;
-//        cout << 2 << endl;
-        delete vec;
-//        cout << 4 << endl;
-    }
 }
