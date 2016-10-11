@@ -47,6 +47,7 @@ vector<string> Parser::parseLine(const string &line) {
     return line_words;
 }
 
+// returns true if the string is an unsigned double
 bool Parser::isDouble(const string &word) {
     bool is_num = true;
     string digits = "1234567890.";

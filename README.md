@@ -1,5 +1,5 @@
 ###Motivation
-I approached this problem from the perspective of wanting to demonstrate that I can use data structures appropriately to write efficient code. My implementation uses a series of hashmaps to provide constant time lookups, and prevent me from having to scan through the system of equations more than once. I also solved a slightly more general problem than the one specified in the instructions. In my solution values don't have to be unsigned, and the left side of the equation is not just limited to a variable name, but can be an expression of the same form as the right side.
+I approached this problem from the perspective of wanting to demonstrate that I can use data structures appropriately to write efficient code. My implementation uses a series of hashmaps to provide constant time lookups, and prevent me from having to scan through the system of equations more than once. I also solved a slightly more general problem than the one specified in the instructions. In my solution variables don't have to have unsigned values (but other terms still must still be unsigned), and the left side of the equation is not just limited to a variable name, but can be an expression of the same form as the right side.
 
 ### High Level Overview
 The implementation is based primarily around two hashmaps: equation_map and solution_map. 
@@ -17,7 +17,7 @@ Here is some psudocode explaining how the algorithm works:
 5         else:
 6             add mapping from v -> E to equation_map
 7     if E only contains one variable w and value a:
-9         add map from w -> a to solution_map.
+9         add mapping from w -> a to solution_map.
 10        look up w in equation_map to get vector of equations F that contain w.
 11        for each equation in F:
 12            update F by replacing variable w with value a.
@@ -27,27 +27,11 @@ Here is some psudocode explaining how the algorithm works:
 
 Each equation is represented as an instance of class EquationNode. equation_map and solution_map are both shared static members of class EquationNode.
 
-### Runtime analysis
-If we say that there are *n* equations, that each have *m* terms max, then we know that a lower bound on the runtime is *O(nm)*, since we definitely have to iterate over every term in every equation. My implementation has runtime *O(2nm)*, since as we iterate over each of the *nm* variables, we do *O(1)* replacements of variables with their calculated values, and there's max *nm* replacements to make. However, expected runtime would be much lower than this, since each equation probably has less than m variables (some must have only 1 variable).
  
 ### Build and Execution Instructions
-to compile the program, just run `make` from the root directory. The resulting executable is in `bin/main`. The program takes a file name as a parameter. Here is an example command from the root directory, along with the output of the program:
+to compile the program, just run `make` from the root directory. The resulting executable is in `bin/main`. The program takes a file name as a parameter. Here is an example command from the root directory:
 ```
-/Projects/tesla-c-$  ./bin/main data/equations2.txt
-File: data/equations2.txt
-
-	 file contents 
-offset + 3 = 4 + random + random + 1
-location + origin = 1 + origin + offset
-origin = 3 + 5
-random = 2 + random + random
-
-	 solution 
-location: -1
-offset: -2
-origin: 8
-random: -2
-
+./bin/main data/equations2.txt
 ```
 
 To check for memory leaks, just prepend `valgrind --leak-check=full --show-leak-kinds=all` to the command, like so:
@@ -65,6 +49,30 @@ To check for memory leaks, just prepend `valgrind --leak-check=full --show-leak-
 ==13722== For counts of detected and suppressed errors, rerun with: -v
 ==13722== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 
+```
+
+### Example Output
+Input:
+```
+5 = b
+c = 2 + 5 + b
+d + d + c = d
+e + 5 + d = f + c
+g = 3.3
+h = g + g + 1
+7 + m = g + h
+f + f = 10
+```
+Output:
+```
+b = 5
+c = 12
+d = -12
+e = 24
+f = 5
+g = 3.3
+h = 7.6
+m = 3.9
 ```
 
 ### Thoughts On The Assignment

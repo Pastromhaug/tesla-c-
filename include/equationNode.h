@@ -6,8 +6,7 @@
 #include <unordered_map>
 using namespace std;
 
-// Node keeps track of a variable and it's connections to other
-// variables.
+
 class EquationNode {
 
     //-------- variables ---------
@@ -91,7 +90,7 @@ class EquationNode {
         // e.x. "a = b + c + 5" should be input as ["a", "=", "b", "+", "c","+","5"]
         EquationNode(vector<string>&);
 
-        // takes all the words in a file, solves the system of equations,
+        // takes all the words in a file representing a system of equations, solves the system of equations,
         // prints the solution to the console
         static void solveSystemOfEquations(vector<vector<string>>& system);
 

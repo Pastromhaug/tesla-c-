@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 
     // grab the file name argument from command line
     char* filename = argv[1];
-    cout << "File: " << filename << "\n\n";
+//    cout << "File: " << filename << "\n\n";
 
     // make sure the file exists
     if (!Parser::checkFileName(filename))
@@ -22,8 +22,7 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    // print out the file contents
-    Parser::printFileContents(filename);
+//    Parser::printFileContents(filename);
     // parse the file into a vector of vectors of strings, where each vector is a line
     // and each string is a word separated by spaces.
     vector<vector<string>> parsed_file = Parser::parseFile(filename);
