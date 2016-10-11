@@ -8,6 +8,28 @@ using namespace std;
 /**
  Takes a string and ouputs a vector of all the words in the string
 */
+
+bool Parser::checkFileName(const string & file_name) {
+    string line;
+    ifstream myfile(file_name);
+    if (myfile.is_open())
+        return true;
+    return false;
+}
+
+vector<vector<string>> Parser::parseFile(const string &file_name) {
+    string line;
+    ifstream myfile(file_name);
+    vector<vector<string>> file_parsed;
+    while (getline(myfile, line))
+    {
+        vector <string> line_words = parseLine(line);
+        file_parsed.push_back(line_words);
+    }
+    return file_parsed;
+
+}
+
 vector<string> Parser::parseLine(const string &line) {
     vector<string> line_words;
     int i = 0;
@@ -42,6 +64,7 @@ bool Parser::isDouble(const string &word) {
 void Parser::printFileContents(const string& fileName) {
     string line;
     ifstream myfile(fileName);
+    cout << "\t file contents \n";
     if (myfile.is_open())
         while (getline(myfile, line))
             cout << line << "\n";
